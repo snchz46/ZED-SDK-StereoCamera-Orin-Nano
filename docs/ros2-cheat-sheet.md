@@ -1,23 +1,23 @@
-# ROS 2 Cheat Sheet para el ZED Wrapper
+# ROS 2 Cheat Sheet for the ZED Wrapper
 
-Comandos rápidos para arrancar los nodos de publicación más habituales del paquete [`zed-ros2-wrapper`](https://www.stereolabs.com/docs/ros2/). Ajusta el parámetro `camera_model` a tu dispositivo (`zedm`, `zed2`, `zed2i`, etc.).
+Quick commands to launch the most common publishers from the [`zed-ros2-wrapper`](https://www.stereolabs.com/docs/ros2/) package. Set the `camera_model` parameter to match your device (`zedm`, `zed2`, `zed2i`, etc.).
 
-| Comando ROS 2 | Datos publicados clave | ¿Para qué sirve? |
-|---------------|-----------------------|-------------------|
-| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm publish_rgb:=true publish_depth:=true` | `rgb/image_rect_color`, `depth/depth_registered`, `stereo/image_rect_*` | Inicializa la cámara con streams RGB y de profundidad rectificados listos para visualización o procesamiento. |
-| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm sensors:=true` | `imu/data`, `imu/mag`, `temperature/imu` | Activa la IMU y sensores integrados para fusionarlos con otros estimadores (por ejemplo `robot_localization`). |
-| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm publish_odom_tf:=true publish_pose:=true` | `odom`, `pose`, `tf` | Publica la odometría visual y las transformaciones TF para navegación y SLAM. |
-| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm point_cloud_freq:=15.0` | `point_cloud/cloud_registered` | Genera nubes de puntos XYZRGB a la frecuencia indicada para mapeo o detección de obstáculos. |
-| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm object_detection:=true` | `obj_det/objects`, `obj_det/markers` | Activa la detección de objetos integrada del SDK para enviar bounding boxes 3D y marcadores de RViz. |
+| ROS 2 Command | Key Published Data | Purpose |
+|---------------|-------------------|---------|
+| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm publish_rgb:=true publish_depth:=true` | `rgb/image_rect_color`, `depth/depth_registered`, `stereo/image_rect_*` | Start the camera with rectified RGB and depth streams ready for visualization or processing. |
+| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm sensors:=true` | `imu/data`, `imu/mag`, `temperature/imu` | Enable the onboard IMU and sensors so they can be fused with estimators such as `robot_localization`. |
+| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm publish_odom_tf:=true publish_pose:=true` | `odom`, `pose`, `tf` | Publish visual odometry and TF transforms for navigation and SLAM. |
+| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm point_cloud_freq:=15.0` | `point_cloud/cloud_registered` | Generate XYZRGB point clouds at the selected frequency for mapping or obstacle detection. |
+| `ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zedm object_detection:=true` | `obj_det/objects`, `obj_det/markers` | Activate the SDK's built-in object detection to emit 3D bounding boxes and RViz markers. |
 
-## Comandos complementarios
+## Complementary Commands
 
-- Previsualizar un tópico de imagen: `ros2 run rqt_image_view rqt_image_view` y seleccionar `/zed/zed_node/rgb/image_rect_color`.
-- Inspeccionar la IMU en consola: `ros2 topic echo /zed/zed_node/imu/data`.
-- Grabar datos sincronizados: `ros2 bag record /zed/zed_node/rgb/image_rect_color /zed/zed_node/depth/depth_registered /zed/zed_node/imu/data`.
-- Ver la estructura TF: `ros2 run tf2_tools view_frames && evince frames.pdf`.
+- Preview an image topic: `ros2 run rqt_image_view rqt_image_view` and select `/zed/zed_node/rgb/image_rect_color`.
+- Inspect IMU data in the console: `ros2 topic echo /zed/zed_node/imu/data`.
+- Record synchronized data: `ros2 bag record /zed/zed_node/rgb/image_rect_color /zed/zed_node/depth/depth_registered /zed/zed_node/imu/data`.
+- View the TF tree: `ros2 run tf2_tools view_frames && evince frames.pdf`.
 
-> 💡 Muchos parámetros del `zed_camera.launch.py` se pueden combinar. Por ejemplo:
+> 💡 Many parameters in `zed_camera.launch.py` can be combined. For example:
 > ```bash
 > ros2 launch zed_wrapper zed_camera.launch.py \
 >   camera_model:=zedm publish_rgb:=true publish_depth:=true \

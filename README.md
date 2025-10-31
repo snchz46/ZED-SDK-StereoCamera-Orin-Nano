@@ -64,9 +64,9 @@ A comprehensive workspace for building an autonomous ground vehicle using the **
    ros2 bag record /zed/zed_node/rgb_raw/image_raw_color /zed/zed_node/depth/depth_registered
    ```
 
-## 📋 ROS 2 Cheat Sheet para el ZED Wrapper
+## 📋 ROS 2 Cheat Sheet for the ZED Wrapper
 
-Consulta la [chuleta completa de comandos](docs/ros2-cheat-sheet.md) para ver combinaciones habituales del `zed-ros2-wrapper` y comandos complementarios para depuración.
+Review the [command quick reference](docs/ros2-cheat-sheet.md) for common `zed-ros2-wrapper` launch combinations and complementary debugging commands.
 
 ## 🔧 Utility Scripts
 The `scripts/` directory includes helper nodes that can be run directly on
