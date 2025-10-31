@@ -14,7 +14,7 @@ An end-to-end workspace for building a ground autonomous vehicle with the **ZED 
 - `scripts/` – Tools for rosbag conversion (COCO/KITTI), TensorRT export, pipeline replay, and bespoke utilities.
 - `src/` – Custom packages for sensor fusion (`fusion/`), datasets/inference, navigation/missions, and teleoperation.
 - `notebooks/` – Labeling and training templates for PyTorch/Lightning, plus an experiment log.
-- `docs/` – Specialized guides: [simulation](docs/simulation.md), [datasets](docs/dataset_workflow.md), [sensor fusion](docs/sensor_fusion.md), [missions](docs/navigation_mission.md), [teleoperation](docs/teleoperation.md), and [CI/CD](docs/ci_cd.md).
+- `docs/` – Specialized guides: [simulation](docs/simulation.md), [datasets](docs/dataset_workflow.md), [sensor fusion](docs/sensor_fusion.md), [missions](docs/navigation_mission.md), [teleoperation](docs/teleoperation.md), [scripts overview](docs/scripts_overview.md), and [CI/CD](docs/ci_cd.md).
 - `.github/workflows/` – GitHub Actions pipeline running linters, tests, and publishing reference artifacts.
 
 > **Note:** Many paths contain placeholders so you can quickly adapt the logic to your robot. Each file describes its purpose and expected extension points.
@@ -84,11 +84,16 @@ The guide [docs/teleoperation.md](docs/teleoperation.md) covers RViz/Foxglove pa
    ```
 
 ## 🔧 Highlighted Scripts
+- `scripts/fusion_distance_check.py`: cross-checks front-facing ranges from LiDAR and ZED depth data.
 - `scripts/zed_distance_monitor.py`: monitors minimum distances in point clouds.
-- `scripts/zed_yolo_listener.py`: runs YOLO on the RGB stream.
+- `scripts/zed_depth_listener.py`: prints depth statistics and optional visualizations.
+- `scripts/zed_depth_to_laserscan.py`: generates a synthetic `LaserScan` from ZED depth images.
+- `scripts/zed_yolo_listener.py`: runs YOLO on the RGB stream with configurable models and devices.
+- `scripts/windows_yolov8_cam_sub_.py` / `scripts/windows_yolov8_cam_sub_ZED.py`: Windows-friendly YOLOv8 visualizers.
 - `scripts/replay_bag_pipeline.sh`: launches the full stack against a rosbag.
 - `scripts/rosbag_to_coco.py` / `scripts/rosbag_to_kitti.py`: dataset conversion.
 - `scripts/export_to_tensorrt.py`: exports trained models to TensorRT.
+- See [docs/scripts_overview.md](docs/scripts_overview.md) for a complete, continuously updated reference of script behavior, dependencies, and usage examples.
 
 ## 🧬 Machine Learning Workflow
 - Capture datasets with rosbag and convert them to standard formats.
