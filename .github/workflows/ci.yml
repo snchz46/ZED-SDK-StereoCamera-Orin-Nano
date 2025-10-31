@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Refresh ROS 2 apt repository key
+        run: |
+          sudo apt-key del F42ED6FBAB17C654 || true
+          sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+            | sudo gpg --dearmor -o /usr/share/keyrings/ros-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu noble main" \
+            | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
       - name: Setup ROS 2 Humble
         uses: ros-tooling/setup-ros@v0.6
         with:
