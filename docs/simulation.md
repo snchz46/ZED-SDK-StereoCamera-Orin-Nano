@@ -1,17 +1,17 @@
-# Simulación y Pruebas Virtuales
+# Simulation and Virtual Testing
 
-Esta guía describe cómo preparar escenarios de Gazebo/Ignition para validar la pila de percepción y navegación sin hardware.
+This guide describes how to prepare Gazebo/Ignition scenarios to validate the perception and navigation stack without hardware.
 
-## Escenarios de referencia
-- **`launch/ignition_zed_world.launch.py`**: lanza un mundo base con el robot, la cámara ZED Mini y Nav2.
-- **`config/nav2_params.yaml`**: parámetros compartidos para planificadores en simulación y hardware real.
-- **`config/robot_localization_sim.yaml`**: configuración extendida para fusionar odometría visual y sensores simulados.
+## Reference scenarios
+- **`launch/ignition_zed_world.launch.py`**: launches a base world with the robot, the ZED Mini camera, and Nav2.
+- **`config/nav2_params.yaml`**: shared parameters for planners in simulation and on hardware.
+- **`config/robot_localization_sim.yaml`**: extended configuration to fuse visual odometry and simulated sensors.
 
-## Flujos de trabajo sugeridos
-1. Cree o importe un modelo URDF/SDFormat del vehículo en `config/urdf/`.
-2. Ajuste los sensores virtuales (IMU, encoders, cámara) y exporte el paquete como un plugin de Ignition.
-3. Ejecute `ros2 launch launch/ignition_zed_world.launch.py use_sim_time:=true` para validar tópicos y transformaciones.
-4. Registre `ros2 bag` desde la simulación para pruebas de regresión.
+## Suggested workflows
+1. Create or import a URDF/SDFormat model of the vehicle in `config/urdf/`.
+2. Tune the virtual sensors (IMU, encoders, camera) and export the package as an Ignition plugin.
+3. Run `ros2 launch launch/ignition_zed_world.launch.py use_sim_time:=true` to validate topics and transforms.
+4. Record `ros2 bag` from the simulation for regression tests.
 
-## Reproducción de datos
-Utilice el script `scripts/replay_bag_pipeline.sh` para lanzar la pila completa contra un rosbag grabado y comparar métricas de desempeño.
+## Data replay
+Use the script `scripts/replay_bag_pipeline.sh` to launch the full stack against a recorded rosbag and compare performance metrics.

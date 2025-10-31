@@ -1,7 +1,7 @@
-"""Traduce comandos de joystick a velocidades de ROS 2."""
+"""Translate joystick commands into ROS 2 velocity messages."""
 
 class JoyTeleopNode:
-    """Placeholder para teleoperación manual."""
+    """Placeholder for manual teleoperation."""
 
     def __init__(self) -> None:
-        raise NotImplementedError("Implementa la lectura de joystick y publicación de cmd_vel")
+        raise NotImplementedError("Implement joystick reading and cmd_vel publishing")

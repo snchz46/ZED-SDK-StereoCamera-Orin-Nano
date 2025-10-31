@@ -1,7 +1,7 @@
-"""Gestiona misiones basadas en waypoints y condiciones."""
+"""Manage waypoint- and condition-based missions."""
 
 class MissionManagerNode:
-    """Placeholder para lógica de misiones reactivas."""
+    """Placeholder for reactive mission logic."""
 
     def __init__(self) -> None:
-        raise NotImplementedError("Implementa la gestión de misiones con Nav2")
+        raise NotImplementedError("Implement mission management with Nav2")

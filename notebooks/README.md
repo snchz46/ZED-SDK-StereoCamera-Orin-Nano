@@ -1,5 +1,5 @@
-# Notebooks de análisis y entrenamiento
+# Analysis and Training Notebooks
 
-- `label-assistant.ipynb`: flujo de etiquetado asistido.
-- `training-template.ipynb`: base para entrenamiento con PyTorch/Lightning.
-- `experiments/`: resultados y análisis de experimentos.
+- `label-assistant.ipynb`: assisted labeling workflow.
+- `training-template.ipynb`: baseline for training with PyTorch/Lightning.
+- `experiments/`: experiment results and analysis.

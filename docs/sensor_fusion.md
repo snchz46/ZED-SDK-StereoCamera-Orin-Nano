@@ -1,15 +1,15 @@
-# Fusión Sensorial Avanzada
+# Advanced Sensor Fusion
 
-Los paquetes en `src/fusion/` combinan la odometría visual de la ZED Mini con sensores adicionales.
+The packages in `src/fusion/` combine the ZED Mini's visual odometry with additional sensors.
 
-## Paquetes principales
-- `src/fusion/robot_localization/`: configuraciones y nodos para EKF y UKF basados en `robot_localization`.
-- `src/fusion/pointcloud_filters/`: filtros voxel, outlier removal y downsampling para nubes de puntos.
+## Core packages
+- `src/fusion/robot_localization/`: configurations and nodes for EKF/UKF using `robot_localization`.
+- `src/fusion/pointcloud_filters/`: voxel filters, outlier removal, and downsampling for point clouds.
 
-## Integraciones clave
-1. Configure los tópicos de IMU y encoders en `config/robot_localization.yaml`.
-2. Publique la odometría visual desde `zed_wrapper` y combínela mediante `robot_localization`.
-3. Ajuste la latencia y los pesos de covarianza con `rqt_reconfigure` o parámetros YAML.
+## Key integrations
+1. Configure IMU and encoder topics in `config/robot_localization.yaml`.
+2. Publish visual odometry from `zed_wrapper` and fuse it via `robot_localization`.
+3. Tune latency and covariance weights with `rqt_reconfigure` or YAML parameters.
 
-## Mapas de ocupación
-Use `src/fusion/occupancy_mapping_node.cpp` para generar mapas 2D/3D filtrados antes de alimentar Nav2.
+## Occupancy maps
+Use `src/fusion/occupancy_mapping_node.cpp` to generate filtered 2D/3D maps before feeding Nav2.

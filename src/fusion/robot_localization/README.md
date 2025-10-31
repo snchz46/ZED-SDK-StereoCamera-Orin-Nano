@@ -1,3 +1,3 @@
 # robot_localization
 
-Incluye configuraciones y nodos personalizados para fusionar sensores con `robot_localization`.
+Includes custom configurations and nodes to fuse sensors with `robot_localization`.

@@ -1,18 +1,18 @@
-# Gestión de Datasets y Entrenamiento
+# Dataset Management and Training
 
-Esta sección resume herramientas para preparar, etiquetar y entrenar modelos con datos de la ZED Mini.
+This section summarizes tools to prepare, label, and train models with ZED Mini data.
 
-## Conversión de datos
-- `scripts/rosbag_to_coco.py`: convierte rosbags a formato COCO para detección de objetos.
-- `scripts/rosbag_to_kitti.py`: genera muestras estilo KITTI con información de profundidad y poses.
+## Data conversion
+- `scripts/rosbag_to_coco.py`: converts rosbags to COCO format for object detection.
+- `scripts/rosbag_to_kitti.py`: generates KITTI-style samples with depth and pose information.
 
-## Etiquetado asistido
-Abra el notebook `notebooks/label-assistant.ipynb` para etiquetar con ayuda de detecciones previas y exportar a COCO.
+## Assisted labeling
+Open the notebook `notebooks/label-assistant.ipynb` to label with help from prior detections and export to COCO.
 
-## Entrenamiento reproducible
-1. Prepare un entorno con PyTorch/Lightning (ver `notebooks/training-template.ipynb`).
-2. Ejecute los experimentos y registre resultados en `notebooks/experiments/`.
-3. Exporte el modelo a ONNX/TensorRT usando `scripts/export_to_tensorrt.py`.
+## Reproducible training
+1. Prepare an environment with PyTorch/Lightning (see `notebooks/training-template.ipynb`).
+2. Run experiments and log results in `notebooks/experiments/`.
+3. Export the model to ONNX/TensorRT using `scripts/export_to_tensorrt.py`.
 
-## Integración en ROS 2
-Los modelos exportados se despliegan mediante nodos en `src/datasets/inference_nodes/` que publican detecciones o segmentaciones.
+## Integration in ROS 2
+Exported models are deployed through nodes in `src/datasets/inference_nodes/` that publish detections or segmentations.

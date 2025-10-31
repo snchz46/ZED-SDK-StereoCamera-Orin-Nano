@@ -1,3 +1,3 @@
-# Filtros de nubes de puntos
+# Point Cloud Filters
 
-Implementa filtros estadísticos, voxel grids y downsampling para limpiar datos antes del mapeo.
+Implements statistical filters, voxel grids, and downsampling to clean data before mapping.

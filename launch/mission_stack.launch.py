@@ -1,4 +1,4 @@
-"""Orquesta Nav2, mission manager y monitores."""
+"""Orchestrate Nav2, the mission manager, and monitors."""
 
 def generate_launch_description():
-    raise NotImplementedError("Configura los nodos de navegación y misión aquí")
+    raise NotImplementedError("Configure the navigation and mission nodes here")
