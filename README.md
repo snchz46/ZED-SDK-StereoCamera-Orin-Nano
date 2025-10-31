@@ -1,142 +1,125 @@
 # ZED Mini Autonomous Vehicle Platform on Jetson Orin Nano
 
-A comprehensive workspace for building an autonomous ground vehicle using the **ZED Mini stereo camera** paired with an **NVIDIA Jetson Orin Nano** running **ROS 2 Humble**. The repository captures setup steps, launch files, utility scripts, and ongoing experiments for perception, mapping, planning, and control that leverage the ZED SDK.
+Un workspace integral para construir un vehículo autónomo terrestre con la **cámara estéreo ZED Mini** y un **NVIDIA Jetson Orin Nano** ejecutando **ROS 2 Humble**. El repositorio captura guías de configuración, lanzadores, scripts y ahora incorpora flujos completos de simulación, manejo de datasets, fusión sensorial, navegación avanzada, teleoperación y automatización CI/CD.
 
-## 🚗 Project Vision
-- Deliver a reliable perception stack based on the ZED Mini for depth, visual odometry, and semantic understanding.
-- Fuse camera data with onboard sensors to enable localization, obstacle avoidance, and navigation.
-- Provide a reference architecture for small-scale autonomous vehicles (UGV/RC car) powered by the Jetson Orin Nano.
-- Maintain reproducible workflows for data collection, training, and deployment of machine-learning models.
+## 🚗 Visión del Proyecto
+- Entregar una pila de percepción confiable basada en la ZED Mini para profundidad, odometría visual y comprensión semántica.
+- Fusionar datos de cámara con sensores a bordo para habilitar localización, evasión de obstáculos y navegación autónoma.
+- Proveer una arquitectura de referencia para vehículos autónomos de pequeña escala (UGV/RC) con Jetson Orin Nano.
+- Mantener workflows reproducibles para captura de datos, entrenamiento y despliegue de modelos de machine learning.
 
-## 📦 Repository Contents
-- `launch/` – ROS 2 launch files for the ZED Mini, perception pipeline, and vehicle bring-up.
-- `config/` – Camera calibration, robot description, and parameter YAML files.
-- `scripts/` – Helper tools for calibration, dataset recording, bag conversion, and diagnostics.
-- `src/` – Custom ROS 2 packages for perception, sensor fusion, planning, and control.
-- `notebooks/` – Jupyter notebooks for dataset exploration, neural network training, and algorithm prototyping.
-- `docs/` – Additional guides, diagrams, and experimental notes.
+## 📦 Contenido del Repositorio
+- `launch/` – Lanzadores ROS 2 para simulación, misión completa y panel web (`ignition_zed_world.launch.py`, `mission_stack.launch.py`, `web_dashboard.launch.py`).
+- `config/` – Parámetros compartidos, reglas de salud, configuraciones de `robot_localization`, misiones y layouts de RViz.
+- `scripts/` – Herramientas para conversión de rosbags (COCO/KITTI), exportación a TensorRT, reproducción de pipelines y utilidades originales.
+- `src/` – Paquetes personalizados para fusión sensorial (`fusion/`), datasets/inferencia, navegación/misiones y teleoperación.
+- `notebooks/` – Plantillas de etiquetado y entrenamiento para PyTorch/Lightning, junto con un registro de experimentos.
+- `docs/` – Guías especializadas: [simulación](docs/simulation.md), [datasets](docs/dataset_workflow.md), [fusión sensorial](docs/sensor_fusion.md), [misiones](docs/navigation_mission.md), [teleoperación](docs/teleoperation.md) y [CI/CD](docs/ci_cd.md).
+- `.github/workflows/` – Pipeline de GitHub Actions que ejecuta linters, pruebas y publica artefactos de referencia.
 
-> **Note:** Some directories will be added progressively as new capabilities are implemented.
+> **Nota:** Muchas rutas contienen placeholders para que adaptes rápidamente la lógica a tu robot. Cada archivo describe el propósito y puntos de extensión esperados.
 
-## 🧰 Hardware
-| Component | Notes |
+## 🧰 Hardware de Referencia
+| Componente | Notas |
 |-----------|-------|
-| NVIDIA Jetson Orin Nano (8 GB) | Host computer running Ubuntu 22.04 / JetPack 5.x |
-| ZED Mini Stereo Camera | Provides RGB + depth, IMU data |
-| Waveshare or custom RC chassis | Differential drive with motor controller (e.g., VESC, RoboClaw) |
-| Wheel encoders / IMU | Optional for improved state estimation |
-| LiPo battery + BEC | Power supply for Jetson and actuators |
+| NVIDIA Jetson Orin Nano (8 GB) | Host Ubuntu 22.04 / JetPack 5.x |
+| ZED Mini Stereo Camera | RGB + profundidad + IMU |
+| Chasis diferencial (Waveshare u otro) | Controlador tipo VESC/RoboClaw |
+| Encoders e IMU | Opcional para mejorar estimación |
+| Batería LiPo + BEC | Alimentación del sistema |
 
-## 🧪 Software Stack
+## 🧪 Stack de Software
 - **OS:** Ubuntu 22.04 LTS (JetPack 5.x)
-- **ROS 2 Humble** with `ros-base` and `ros-dev-tools`
-- **ZED SDK** (>= 4.0) and `zed-ros2-wrapper`
-- **CUDA**, **TensorRT**, and `torch` / `onnxruntime` for AI models
-- **Colcon** for building ROS 2 workspaces
-- Optional: `nav2`, `slam_toolbox`, `rclpy`, `rclcpp`, `foxglove_bridge`, `micro-ros-agent`
+- **ROS 2 Humble** con `ros-base` + herramientas de desarrollo
+- **ZED SDK** (>= 4.0) y `zed-ros2-wrapper`
+- **CUDA**, **TensorRT**, `torch`/`onnxruntime` para modelos IA
+- **Nav2**, `robot_localization`, `slam_toolbox`, `foxglove_bridge`
+- **Colcon** para construir workspaces ROS 2
 
-## 🛠️ Setup Instructions
-1. **Flash Jetson Orin Nano** with JetPack 5.x and complete initial configuration.
-2. **Install ROS 2 Humble** using the `ros-humble-desktop` meta-package or minimal `ros-base` variant.
-3. **Install ZED SDK** following Stereolabs' instructions, then clone and build the [`zed-ros2-wrapper`](https://github.com/stereolabs/zed-ros2-wrapper).
-4. **Clone this repository** inside your ROS 2 workspace (e.g., `~/ros2_ws/src/`).
-5. **Install dependencies**:
+## 🛠️ Configuración Rápida
+1. Flashea el Jetson Orin Nano con JetPack 5.x.
+2. Instala ROS 2 Humble (`ros-humble-desktop` o `ros-base`).
+3. Instala ZED SDK y compila [`zed-ros2-wrapper`](https://github.com/stereolabs/zed-ros2-wrapper).
+4. Clona este repositorio dentro de tu workspace (`~/ros2_ws/src/`).
+5. Instala dependencias:
    ```bash
    sudo apt update && sudo apt install python3-vcstool python3-colcon-common-extensions ros-humble-navigation2
    rosdep install --from-paths src --ignore-src -r -y
    ```
-6. **Build the workspace**:
+6. Construye y sourcea:
    ```bash
    colcon build --symlink-install
    source install/setup.bash
    ```
-7. **Configure udev rules** for the ZED Mini (optional but recommended).
+7. Configura reglas udev para la ZED Mini.
 
-## 📡 Bringing Up the ZED Mini
-1. Connect the ZED Mini via USB-C and ensure the device enumerates (`lsusb`).
-2. Launch the camera driver:
+## 🌐 Simulación y Pruebas Virtuales
+La guía [docs/simulation.md](docs/simulation.md) detalla cómo emplear `launch/ignition_zed_world.launch.py` con modelos URDF/SDFormat, reproducir bags y validar Nav2 en entornos virtuales. El script `scripts/replay_bag_pipeline.sh` automatiza regresiones contra rosbags grabados.
+
+## 📊 Gestión de Datasets y Entrenamiento
+Consulta [docs/dataset_workflow.md](docs/dataset_workflow.md) para convertir rosbags a COCO/KITTI (`scripts/rosbag_to_coco.py`, `scripts/rosbag_to_kitti.py`), etiquetar con `notebooks/label-assistant.ipynb` y exportar modelos (`scripts/export_to_tensorrt.py`). Los nodos de despliegue viven en `src/datasets/inference_nodes/`.
+
+## 🔗 Fusión Sensorial Avanzada
+`src/fusion/` contiene configuraciones de `robot_localization`, filtros de nubes y mapeo de ocupación. Ajusta `config/robot_localization.yaml` y `config/robot_localization_sim.yaml` para combinar IMU, encoders y odometría visual. Más detalles en [docs/sensor_fusion.md](docs/sensor_fusion.md).
+
+## 🧭 Navegación y Misiones
+El stack de navegación extendida se documenta en [docs/navigation_mission.md](docs/navigation_mission.md). `launch/mission_stack.launch.py` levanta Nav2 con el mission manager (`src/navigation/mission_manager/`) y el monitor de salud (`src/navigation/health_monitor/`). Define waypoints en `config/missions/` y condiciones dinámicas mediante plugins en `src/navigation/plugins/`.
+
+## 🎮 Teleoperación y Experiencia de Usuario
+La guía [docs/teleoperation.md](docs/teleoperation.md) cubre paneles RViz/Foxglove, la interfaz web (`src/teleop/web_dashboard/`) y el nodo de joystick (`src/teleop/joystick/`). `launch/web_dashboard.launch.py` sirve ROSBridge más la UI React.
+
+## 🤖 Pipeline CI/CD
+`.github/workflows/ci.yml` introduce un flujo de GitHub Actions para linters, pruebas y artefactos de referencia. Siga [docs/ci_cd.md](docs/ci_cd.md) para recomendaciones adicionales de gobierno de repositorio.
+
+## 📡 Puesta en Marcha de la ZED Mini
+1. Conecta la ZED Mini y verifica `lsusb`.
+2. Lanza el driver:
    ```bash
    ros2 launch zed_wrapper zedm.launch.py
    ```
-3. Visualize streams in RViz2 or Foxglove Studio to verify RGB, depth, point cloud, and IMU data.
-4. Record rosbags for dataset creation:
+3. Visualiza RGB, profundidad e IMU en RViz o Foxglove.
+4. Graba rosbags para datasets:
    ```bash
    ros2 bag record /zed/zed_node/rgb_raw/image_raw_color /zed/zed_node/depth/depth_registered
    ```
 
-## 📋 ROS 2 Cheat Sheet for the ZED Wrapper
+## 🔧 Scripts Destacados
+- `scripts/zed_distance_monitor.py`: monitorea distancias mínimas en nubes de puntos.
+- `scripts/zed_yolo_listener.py`: ejecuta YOLO sobre el stream RGB.
+- `scripts/replay_bag_pipeline.sh`: lanza la pila completa contra un rosbag.
+- `scripts/rosbag_to_coco.py` / `scripts/rosbag_to_kitti.py`: conversión de datasets.
+- `scripts/export_to_tensorrt.py`: exporta modelos entrenados a TensorRT.
 
-Review the [command quick reference](docs/ros2-cheat-sheet.md) for common `zed-ros2-wrapper` launch combinations and complementary debugging commands.
+## 🧬 Workflow de Machine Learning
+- Captura datasets con rosbag y convierte a formatos estándar.
+- Etiqueta y entrena desde `notebooks/` empleando PyTorch/Lightning.
+- Exporta a ONNX/TensorRT y despliega nodos en `src/datasets/inference_nodes/`.
 
-## 🔧 Utility Scripts
-The `scripts/` directory includes helper nodes that can be run directly on
-Windows installations using the [ZED SDK ROS 2 wrapper](https://www.stereolabs.com/docs/ros2/).
+## 🛠️ Flujo de Desarrollo
+1. Crea ramas por funcionalidad (percepción, control, etc.).
+2. Ejecuta `colcon test` y linters antes de abrir un PR.
+3. Documenta cambios en `docs/` y actualiza dashboards si aplica.
+4. Usa Git LFS para grandes artefactos.
 
-- `zed_distance_monitor.py` subscribes to the registered point cloud topic and
-  prints the minimum detected distance for quick obstacle awareness.
-  ```powershell
-  python scripts/zed_distance_monitor.py --topic /zed/zed_node/point_cloud/cloud_registered --sample-ratio 0.05
-  ```
-- `zed_yolo_listener.py` applies an [Ultralytics YOLO](https://docs.ultralytics.com/) model to the rectified RGB feed and
-  displays annotated detections.
-  ```powershell
-  python scripts/zed_yolo_listener.py --model yolov8n.pt --device cuda:0
-  ```
+## 🐛 Troubleshooting
+- **Cámara no detectada:** verifica cableado, reglas udev y `nvidia-smi`.
+- **Caídas del driver:** asegura compatibilidad ZED SDK ↔ JetPack.
+- **Bajo FPS:** deshabilita tópicos innecesarios y usa modelos optimizados.
+- **Inestabilidad en Nav2:** revisa la `tf` y covarianzas en `robot_localization`.
 
-Both scripts require the ROS 2 Humble Python environment on Windows and the
-dependencies listed in their docstrings (e.g., `ultralytics`, `opencv-python`,
-`cv_bridge`).
+## 🗺️ Roadmap Actualizado
+- [x] Integrar flujos de simulación con Ignition.
+- [x] Incorporar conversión de datasets y exportación a TensorRT.
+- [x] Añadir fusión sensorial avanzada con `robot_localization`.
+- [x] Desplegar mission manager y monitoreo de salud.
+- [x] Publicar herramientas de teleoperación y dashboards.
+- [x] Configurar pipeline CI/CD básico.
 
-## 🧭 Autonomous Vehicle Pipeline
-### 1. Perception
-- Stereo depth, visual odometry, and pose provided by `zed-ros2-wrapper`.
-- Semantic segmentation or object detection using TensorRT-optimized models.
-- Optional occupancy grid generation via `stereo_image_proc` or custom node.
-
-### 2. Localization & Mapping
-- Fuse ZED odometry with wheel encoders/IMU using an **EKF** (`robot_localization`).
-- Optional SLAM integration (`slam_toolbox`, `rtabmap_ros`) for map building.
-
-### 3. Planning & Control
-- Use **Nav2** for global/local path planning.
-- Differential drive controller via `ros2_control` or custom PID node.
-- Safety checks: virtual bumper, emergency stop topics.
-
-### 4. Teleoperation & Monitoring
-- Joystick teleop for manual override.
-- Foxglove Studio dashboard for visualization and remote supervision.
-- ROS 2 diagnostics to monitor sensor health, temperature, and power draw.
-
-## 🧬 Machine Learning Workflow
-- Capture datasets with rosbag and convert to training formats (e.g., COCO, KITTI).
-- Use notebooks for labeling, augmentation, and training custom models.
-- Export optimized engines (TensorRT / ONNX) and deploy inference nodes within ROS 2.
-
-## 🛠️ Development Workflow
-1. Create feature branches per module (perception, control, etc.).
-2. Use `colcon test` and `ament_lint` for quality assurance.
-3. Document experiments and configurations under `docs/`.
-4. Use Git LFS for large datasets or neural network weights when necessary.
-
-## 🐛 Troubleshooting Tips
-- **Camera not detected:** Check USB-C cable, power, and `udev` rules. Run `nvidia-smi` to verify Jetson GPU availability.
-- **Driver crashes:** Ensure ZED SDK version matches JetPack release. Reinstall `zed-ros2-wrapper` dependencies.
-- **Low FPS:** Disable unused topics, reduce resolution, and leverage GPU accelerated inference.
-- **Nav2 instability:** Tune local planner parameters, ensure tf tree consistency, and verify odometry noise values.
-
-## 🗺️ Roadmap
-- [ ] Integrate wheel encoder + IMU fusion with `robot_localization`.
-- [ ] Implement obstacle detection node publishing costmap layers.
-- [ ] Add waypoint-following mission manager with Nav2.
-- [ ] Deploy semantic segmentation model optimized with TensorRT.
-- [ ] Create CI pipeline for linting and simulation tests.
-
-## 📚 References
+## 📚 Referencias
 - [Stereolabs ZED Mini](https://www.stereolabs.com/zed-mini/)
 - [ZED ROS 2 Wrapper Documentation](https://www.stereolabs.com/docs/ros2/)
 - [Jetson Orin Nano Developer Kit](https://developer.nvidia.com/embedded/jetson-orin-nano-developer-kit)
 - [ROS 2 Navigation Stack (Nav2)](https://navigation.ros.org/)
 
-## 📄 License
-Specify licensing terms here (e.g., MIT, Apache-2.0) once finalized.
-
+## 📄 Licencia
+Especifica los términos de licencia (p.ej. MIT, Apache-2.0) cuando estén definidos.
