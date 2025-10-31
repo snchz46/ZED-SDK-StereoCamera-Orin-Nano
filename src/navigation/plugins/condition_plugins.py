@@ -1,7 +1,7 @@
-"""Plugins de condiciones para misiones reactivas."""
+"""Condition plugins for reactive missions."""
 
 class BaseCondition:
-    """Interfaz de condiciones."""
+    """Condition interface."""
 
     def evaluate(self, context: dict) -> bool:
         raise NotImplementedError

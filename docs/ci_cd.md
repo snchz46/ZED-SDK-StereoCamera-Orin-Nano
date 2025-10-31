@@ -1,12 +1,12 @@
-# Infraestructura de CI/CD
+# CI/CD Infrastructure
 
-El repositorio incluye automatizaciones para asegurar calidad y reproducibilidad.
+The repository includes automations to ensure quality and reproducibility.
 
 ## GitHub Actions
-- Workflow `ci.yml` ejecuta linters (`ament_lint`, `ruff`, `mypy`) y pruebas (`colcon test`).
-- El job `record-artifacts` almacena rosbags de referencia generados en simulación.
+- Workflow `ci.yml` runs linters (`ament_lint`, `ruff`, `mypy`) and tests (`colcon test`).
+- The `record-artifacts` job stores reference rosbags generated in simulation.
 
-## Recomendaciones adicionales
-1. Active reglas de branch protection para `main`.
-2. Habilite revisiones obligatorias y escaneo de dependencias.
-3. Publique releases etiquetadas con artefactos (modelos, configuraciones y dashboards).
+## Additional recommendations
+1. Enable branch protection rules for `main`.
+2. Require reviews and dependency scanning.
+3. Publish tagged releases with artifacts (models, configurations, and dashboards).

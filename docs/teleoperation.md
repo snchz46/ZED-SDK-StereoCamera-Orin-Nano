@@ -1,14 +1,14 @@
-# Teleoperación y Experiencia de Usuario
+# Teleoperation and User Experience
 
-Los recursos en `src/teleop/` permiten controlar el robot y visualizar datos en tiempo real.
+The resources in `src/teleop/` allow controlling the robot and visualizing data in real time.
 
-## Paneles listos para usar
-- `config/rviz/zed_nav2.rviz`: panel RViz con tópicos preconfigurados.
-- `docs/dashboards/foxglove_panel.json`: layout para Foxglove Studio.
+## Ready-to-use panels
+- `config/rviz/zed_nav2.rviz`: RViz panel with preconfigured topics.
+- `docs/dashboards/foxglove_panel.json`: layout for Foxglove Studio.
 
-## Interfaz web
-- `src/teleop/web_dashboard/`: aplicación React que consume ROSBridge (`rosbridge_suite`).
-- Lanzar con `launch/web_dashboard.launch.py` para servir la interfaz y el bridge.
+## Web interface
+- `src/teleop/web_dashboard/`: React application that consumes ROSBridge (`rosbridge_suite`).
+- Launch with `launch/web_dashboard.launch.py` to serve the interface and bridge.
 
-## Controles manuales
-`src/teleop/joystick/joy_teleop_node.py` traduce comandos de joystick y expone un modo de parada de emergencia.
+## Manual controls
+`src/teleop/joystick/joy_teleop_node.py` translates joystick commands and exposes an emergency stop mode.

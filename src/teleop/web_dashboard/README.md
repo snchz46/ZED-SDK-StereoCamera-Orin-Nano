@@ -1,3 +1,3 @@
-# Dashboard Web
+# Web Dashboard
 
-Aplicación React que consume ROSBridge para teleoperar y monitorear el robot.
+React application that consumes ROSBridge to teleoperate and monitor the robot.

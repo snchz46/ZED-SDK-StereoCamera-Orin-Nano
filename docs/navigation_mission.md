@@ -1,14 +1,14 @@
-# Navegación y Gestión de Misiones
+# Navigation and Mission Management
 
-Los componentes en `src/navigation/` amplían Nav2 para soportar misiones reactivas y monitoreo del sistema.
+The components in `src/navigation/` extend Nav2 to support reactive missions and system monitoring.
 
 ## Mission Manager
-- `src/navigation/mission_manager/mission_manager_node.py`: carga waypoints desde `config/missions/*.yaml` y publica objetivos dinámicos.
-- Soporta eventos definidos por plugins (`plugins/condition_plugins.py`) para misiones contextuales.
+- `src/navigation/mission_manager/mission_manager_node.py`: loads waypoints from `config/missions/*.yaml` and publishes dynamic goals.
+- Supports events defined by plugins (`plugins/condition_plugins.py`) for contextual missions.
 
-## Supervisión y failsafe
-- `src/navigation/health_monitor/health_monitor_node.cpp`: vigila la latencia de tópicos y activa modos seguros.
-- `config/health_rules.yaml`: define umbrales y acciones correctivas.
+## Monitoring and failsafe
+- `src/navigation/health_monitor/health_monitor_node.cpp`: watches topic latency and triggers safe modes.
+- `config/health_rules.yaml`: defines thresholds and corrective actions.
 
-## Integración con Nav2
-El launch `launch/mission_stack.launch.py` orquesta Nav2, el mission manager y la supervisión de forma cohesiva.
+## Nav2 integration
+The launch file `launch/mission_stack.launch.py` orchestrates Nav2, the mission manager, and monitoring cohesively.

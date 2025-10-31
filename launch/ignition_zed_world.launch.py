@@ -1,4 +1,4 @@
-"""Launch de referencia para simulación con Ignition."""
+"""Reference launch file for simulation with Ignition."""
 
 def generate_launch_description():
-    raise NotImplementedError("Integra la simulación con Ignition/Gazebo aquí")
+    raise NotImplementedError("Integrate the simulation with Ignition/Gazebo here")
