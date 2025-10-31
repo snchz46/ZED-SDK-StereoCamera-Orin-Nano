@@ -64,6 +64,25 @@ A comprehensive workspace for building an autonomous ground vehicle using the **
    ros2 bag record /zed/zed_node/rgb_raw/image_raw_color /zed/zed_node/depth/depth_registered
    ```
 
+## 🔧 Utility Scripts
+The `scripts/` directory includes helper nodes that can be run directly on
+Windows installations using the [ZED SDK ROS 2 wrapper](https://www.stereolabs.com/docs/ros2/).
+
+- `zed_distance_monitor.py` subscribes to the registered point cloud topic and
+  prints the minimum detected distance for quick obstacle awareness.
+  ```powershell
+  python scripts/zed_distance_monitor.py --topic /zed/zed_node/point_cloud/cloud_registered --sample-ratio 0.05
+  ```
+- `zed_yolo_listener.py` applies an [Ultralytics YOLO](https://docs.ultralytics.com/) model to the rectified RGB feed and
+  displays annotated detections.
+  ```powershell
+  python scripts/zed_yolo_listener.py --model yolov8n.pt --device cuda:0
+  ```
+
+Both scripts require the ROS 2 Humble Python environment on Windows and the
+dependencies listed in their docstrings (e.g., `ultralytics`, `opencv-python`,
+`cv_bridge`).
+
 ## 🧭 Autonomous Vehicle Pipeline
 ### 1. Perception
 - Stereo depth, visual odometry, and pose provided by `zed-ros2-wrapper`.
