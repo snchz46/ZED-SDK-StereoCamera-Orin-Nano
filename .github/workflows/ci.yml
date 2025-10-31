@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Upgrade pip, setuptools and wheel
+        run: python3 -m pip install --upgrade pip setuptools wheel
+      - name: Install test requirements
+        if: ${{ hashFiles('requirements.txt') != '' }}
+        run: python3 -m pip install -r requirements.txt
       - name: Setup ROS 2 Humble
         uses: ros-tooling/setup-ros@v0.6
         with:
